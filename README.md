@@ -42,4 +42,3 @@ Test with the included sample:
 ```bash
 python test_analyzer.py
 ```
-# latex-acronym-inspector
