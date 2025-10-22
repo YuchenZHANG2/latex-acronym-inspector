@@ -15,7 +15,7 @@ A Python tool that analyzes LaTeX documents for inconsistent acronym usage and g
 ## Installation
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/YuchenZHANG2/latex-acronym-inspector.git
 cd latex-acronym-inspector
 pip install -r requirements.txt
 ```
