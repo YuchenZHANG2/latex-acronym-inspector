@@ -20,6 +20,16 @@ cd latex-acronym-inspector
 pip install -r requirements.txt
 ```
 
+
+## Sample Project
+
+Test with the included sample:
+```bash
+python test_analyzer.py
+```
+
+
+
 ## Usage
 
 1. Edit configuration in `analyze_acronyms.py`:
@@ -36,9 +46,3 @@ pip install -r requirements.txt
 
 
 
-## Sample Project
-
-Test with the included sample:
-```bash
-python test_analyzer.py
-```

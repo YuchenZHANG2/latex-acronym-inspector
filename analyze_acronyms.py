@@ -77,9 +77,15 @@ def scan_acronyms(entries, acronym_defs):
         full = data["full"]
         short = data["short"]
 
-        # detect both singular/plural forms
-        full_pattern = re.compile(rf"\b{re.escape(full)}s?\b")
-        short_pattern = re.compile(rf"\b{re.escape(short)}s?\b")
+        # Create comprehensive patterns for full forms (case-insensitive, plural variations)
+        # Handle both simple plurals (s) and common word-ending changes
+        escaped_full = re.escape(full)
+        # For "World Model" -> matches "world model", "World Models", "world models", etc.
+        full_pattern = re.compile(rf"\b{escaped_full}s?\b", re.IGNORECASE)
+        
+        # Also handle acronym short forms with plurals
+        escaped_short = re.escape(short)
+        short_pattern = re.compile(rf"\b{escaped_short}s?\b", re.IGNORECASE)
 
         # Only scan content after \begin{document}
         for path, line_no, line in content_entries:
@@ -521,8 +527,11 @@ def generate_pdf_report(acronym_defs, report, output_filename="acronym_report.pd
             # Show all full form uses (highlight the full form in red)
             for f, l, t in full_uses:
                 sentence = extract_sentence_containing_text(t, full)
-                # Highlight the full form in red (case-insensitive)
-                highlighted_sentence = re.sub(re.escape(full), f'<font color="red">{full}</font>', sentence, flags=re.IGNORECASE)
+                # Highlight the full form in red (preserve original case)
+                def highlight_preserving_case(match):
+                    return f'<font color="red">{match.group(0)}</font>'
+                
+                highlighted_sentence = re.sub(re.escape(full), highlight_preserving_case, sentence, flags=re.IGNORECASE)
                 story.append(Paragraph(f"&nbsp;&nbsp;&nbsp;<b><font color='blue'>{f.name}</font></b> — {highlighted_sentence}", styles['Normal']))
             
             story.append(Spacer(1, 10))
